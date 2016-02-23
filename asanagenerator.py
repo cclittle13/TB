@@ -1,7 +1,7 @@
 """Yoga Asana Generator application Flask server.
 
-Provides web interface for browsing asanas, seeing detail about an asana, and
-put asanas in a list (random choice).
+Provides web interface for browsing asanas, seeing detail about individual asanas, and a way to
+put asanas in a list (with an option for a random choice generator).
 
 Author: Chelsea Little.
 """
@@ -26,42 +26,43 @@ IMAGES = [
     { "id": 2, "name": "Downward Facing Dog", "url": "http://www.pocketyoga.com/images/poses/downward_dog.png"},
     { "id": 3, "name": "Ragdoll", "url": "http://www.pocketyoga.com/images/poses/forward_bend.png"},
     { "id": 4, "name": "Samasthiti", "url": "http://www.pocketyoga.com/images/poses/chair_prayer.png"},
-    { "id": 5, "name": "Mountain Pose", "url": "http://www.pocketyoga.com/images/poses/child_traditional.png"},
-    { "id": 6, "name": "Standing Forward Fold", "url": "http://www.pocketyoga.com/images/poses/downward_dog.png"},
-    { "id": 7, "name": "Halfway Lift", "url": "http://www.pocketyoga.com/images/poses/forward_bend.png"},
+    { "id": 5, "name": "Mountain Pose", "url": "http://www.pocketyoga.com/images/poses/mountain.png"},
+    { "id": 6, "name": "Standing Forward Fold", "url": "http://www.pocketyoga.com/images/poses/forward_bend.png"},
+    { "id": 7, "name": "Halfway Lift", "url": "http://www.pocketyoga.com/images/poses/forward_bend_half_way.png"},
     { "id": 8, "name": "Chaturanga Dandasana", "url": "http://www.pocketyoga.com/images/poses/chair_prayer.png"},
-    { "id": 9, "name": "Upward Facing Dog", "url": "http://unsplash.it/380/200"},
-    { "id": 10, "name": "Table Pose", "url": "http://unsplash.it/360/200"},
-    { "id": 11, "name": "Chair Pose", "url": "http://unsplash.it/380/200"},
-    { "id": 12, "name": "Warrior 2", "url": "http://unsplash.it/320/200"},
-    { "id": 13, "name": "Extended Side Angle", "url": "http://unsplash.it/300/200"},
-    { "id": 14, "name": "Reverse Warrior", "url": "http://unsplash.it/290/200"},
-    { "id": 15, "name": "Reclined Bound Angle Sit-Ups", "url": "http://unsplash.it/350/200"},
-    { "id": 16, "name": "Bicycle Sit-Ups", "url": "http://www.pocketyoga.com/images/thumbnailsbig/box_neutral-tnbig.png"},
-    { "id": 17, "name": "Boat Pose", "url": "http://unsplash.it/320/200"},
-    { "id": 18, "name": "Cresent Lunge", "url": "http://unsplash.it/300/200"},
-    { "id": 19, "name": "Revolved Cresent Lunge", "url": "http://unsplash.it/290/200"},
-    { "id": 20, "name": "Runner's Lunge", "url": "http://unsplash.it/350/200"},
-    { "id": 21, "name": "Side Plank", "url": "http://unsplash.it/380/200"},
-    { "id": 22, "name": "Prayer Twist", "url": "http://unsplash.it/360/200"},
-    { "id": 23, "name": "Frog Pose", "url": "http://unsplash.it/380/200"},
-    { "id": 24, "name": "Crow Pose", "url": "http://unsplash.it/320/200"},
-    { "id": 25, "name": "Eagle Pose", "url": "http://unsplash.it/300/200"},
-    { "id": 26, "name": "Dancer's Pose", "url": "http://unsplash.it/290/200"},
-    { "id": 27, "name": "Tree Pose", "url": "http://unsplash.it/350/200"},
-    { "id": 28, "name": "Warrior 1", "url": "http://unsplash.it/320/200"},
-    { "id": 29, "name": "Triangle Pose", "url": "http://unsplash.it/300/200"},
-    { "id": 30, "name": "Prasarita Pose", "url": "http://unsplash.it/290/200"},
-    { "id": 31, "name": "Half Pigeon", "url": "http://unsplash.it/350/200"},
-    { "id": 32, "name": "Cobra Pose", "url": "http://unsplash.it/380/200"},
-    { "id": 33, "name": "Floor Bow", "url": "http://unsplash.it/360/200"},
-    { "id": 34, "name": "Camel Pose", "url": "http://unsplash.it/380/200"},
-    { "id": 35, "name": "Reclined Bound Angle Pose", "url": "http://unsplash.it/320/200"},
-    { "id": 36, "name": "Seated Forward Fold", "url": "http://unsplash.it/300/200"},
-    { "id": 37, "name": "Happy Baby Pose", "url": "http://unsplash.it/290/200"},
-    { "id": 38, "name": "Supine Twist", "url": "http://unsplash.it/350/200"},
-    { "id": 39, "name": "Savasana","name": "Supine Twist","url": "http://unsplash.it/320/200"},
-    { "id": 40, "name": "Namaste","url": "http://unsplash.it/300/200"},
+    { "id": 9, "name": "Upward Facing Dog", "url": "http://www.pocketyoga.com/images/poses/upward_dog.png"},
+    { "id": 10, "name": "Table Top Pose", "url": "http://www.pocketyoga.com/images/poses/box_neutral.png"},
+    { "id": 11, "name": "Chair Pose", "url": "http://www.pocketyoga.com/images/poses/chair.png"},
+    { "id": 12, "name": "Warrior 2", "url": "http://www.pocketyoga.com/images/poses/warrior_II_R.png"},
+    { "id": 13, "name": "Extended Side Angle", "url": "http://www.pocketyoga.com/images/poses/warrior_II_forward_arm_forward_R.png"},
+    { "id": 14, "name": "Reverse Warrior", "url": "http://www.pocketyoga.com/images/poses/warrior_II_reverse_R.png"},
+    { "id": 15, "name": "Reclined Bound Angle Sit-Ups", "url": "http://www.pocketyoga.com/images/poses/supine_bound_angle.png"},
+    { "id": 16, "name": "Bicycle Sit-Ups", "url": "http://www.pocketyoga.com/images/poses/wind_removing_R.png"},
+    { "id": 17, "name": "Boat Pose", "url": "http://www.pocketyoga.com/images/poses/boat_full.png"},
+    { "id": 18, "name": "Cresent Lunge", "url": "http://www.pocketyoga.com/images/poses/lunge_crescent_R.png"},
+    { "id": 19, "name": "Revolved Cresent Lunge", "url": "http://www.pocketyoga.com/images/poses/lunge_kneeling_twist_R.png"},
+    { "id": 20, "name": "Runner's Lunge", "url": "http://www.pocketyoga.com/images/poses/lunge_R.png"},
+    { "id": 21, "name": "Side Plank", "url": "http://www.pocketyoga.com/images/poses/plank_side_L.png"},
+    { "id": 22, "name": "Prayer Twist", "url": "http://www.pocketyoga.com/images/poses/chair_twist_R.png"},
+    { "id": 23, "name": "Frog Pose", "url": "http://www.pocketyoga.com/images/poses/seated_on_heels_hands_on_mat_opened_knees.png"},
+    { "id": 24, "name": "Crow Pose", "url": "http://www.pocketyoga.com/images/poses/crow.png"},
+    { "id": 25, "name": "Eagle Pose", "url": "http://www.pocketyoga.com/images/poses/eagle_L.png"},
+    { "id": 26, "name": "Dancer's Pose", "url": "http://www.pocketyoga.com/images/poses/lord_of_the_dance_R.png"},
+    { "id": 27, "name": "Tree Pose", "url": "http://www.pocketyoga.com/images/poses/tree_L.png"},
+    { "id": 28, "name": "Warrior 1", "url": "http://www.pocketyoga.com/images/poses/warrior_I_R.png"},
+    { "id": 29, "name": "Triangle Pose", "url": "http://www.pocketyoga.com/images/poses/triangle_forward_R.png"},
+    { "id": 30, "name": "Prasarita Pose", "url": "http://www.pocketyoga.com/images/poses/forward_bend_deep.png"},
+    { "id": 31, "name": "Half Pigeon", "url": "http://www.pocketyoga.com/images/poses/pigeon_half_R.png"},
+    { "id": 32, "name": "Cobra Pose", "url": "http://www.pocketyoga.com/images/poses/cobra.png"},
+    { "id": 33, "name": "Floor Bow", "url": "http://www.pocketyoga.com/images/poses/bow.png"},
+    { "id": 34, "name": "Camel Pose", "url": "http://www.pocketyoga.com/images/poses/camel.png"},
+    { "id": 34, "name": "Bridge Pose", "url": "http://www.pocketyoga.com/images/poses/bridge.png"},
+    { "id": 35, "name": "Reclined Bound Angle Pose", "url": "http://www.pocketyoga.com/images/poses/supine_bound_angle.png"},
+    { "id": 36, "name": "Seated Forward Fold", "url": "http://www.pocketyoga.com/images/poses/seated_forward_bend.png"},
+    { "id": 37, "name": "Happy Baby Pose", "url": "http://www.pocketyoga.com/images/poses/blissful_baby.png"},
+    { "id": 38, "name": "Supine Twist", "url": "http://www.pocketyoga.com/images/poses/supine_spinal_twist_R.png"},
+    { "id": 39, "name": "Savasana","name": "Supine Twist","url": "http://www.pocketyoga.com/images/poses/corpse.png"},
+    { "id": 40, "name": "Namaste","url": "http://www.pocketyoga.com/images/poses/easy.png"},
     # { "id": 3, "url": "http://unsplash.it/290/200"},
     # { "id": 4, "url": "http://unsplash.it/350/200"},
     # { "id": 5, "url": "http://unsplash.it/380/200"},
@@ -99,6 +100,19 @@ def list_poses():
     return render_template("all_poses.html",
                            pose_list=pose_list)
 
+
+@app.route("/melon/<int:pose_id>")
+def show_melon(melon_id):
+    """Return page showing the details of a given melon.
+
+    Show all info about a pose. Also, provide a button to pick that pose.
+    """
+
+    pose = poses.get_by_id(pose_id)
+    print pose 
+    return render_template("pose_details.html",
+                           display_pose=pose)
+
 # @app.route("/welcome")
 # def index():
 #     """Welcome page."""
@@ -106,25 +120,25 @@ def list_poses():
 #     # movies = Movie.query.order_by('title').all()
 #     return render_template("welcome.html", images=IMAGES)
 
-@app.route("/asanas")
-def image_list():
-    """Return homepage."""
+# @app.route("/asanas")
+# def image_list():
+#     """Return homepage."""
     
-    return render_template("homepage.html", images=IMAGES)
+#     return render_template("homepage.html", images=IMAGES)
 
 
-@app.route("/about")
-def website_info():
-    """Return website info page."""
+# @app.route("/about")
+# def website_info():
+#     """Return website info page."""
     
-    return render_template("about.html")
+#     return render_template("about.html")
 
 
-@app.route("/sequence")
-def returns_sequence():
-    """Return homepage."""
+# @app.route("/sequence")
+# def returns_sequence():
+#     """Return homepage."""
     
-    return render_template("sequence.html", images=IMAGES)
+#     return render_template("sequence.html", images=IMAGES)
 
 # @app.route("/poses")
 # def shows_full_pose_list():
@@ -133,14 +147,14 @@ def returns_sequence():
 #     return render_template("all_poses.html", images=IMAGES)
 
 
-@app.route("/add-to-favorites", methods=["POST"])
-def add_to_favorites():
+# @app.route("/add-to-favorites", methods=["POST"])
+# def add_to_favorites():
 
-    photo_id = request.form.get("id")
+#     photo_id = request.form.get("id")
 
-    # put this in a "favorites" table?
+#     # put this in a "favorites" table?
 
-    return jsonify(status="success", id=photo_id)
+#     return jsonify(status="success", id=photo_id)
 
 # @app.route("/melons")
 # def list_melons():
@@ -149,15 +163,6 @@ def add_to_favorites():
 #     melon_list = melons.get_all()
 #     return render_template("all_melons.html",
 #                            melon_list=melon_list)
-
-@app.route("/poses")
-def list_poses():
-    """Return page showing all the poses for the sequence generator """
-
-    pose_list = Pose.query.all()
-    return render_template("all_poses.html",
-                           pose_list=pose_list)
-
 
 # @app.route("/melon/<int:melon_id>")
 # def show_melon(melon_id):
