@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2>Asanas</h2>
+
+    <div id="pose_list" class="row">
+      {% for pose in pose_list %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 pose-summary">
+
+              <div class="well">
+                  <!-- <h3><a href="/poses/{{ pose.id }}">{{ pose.common_name }}</a></h3>
+                  <a href="/poses/{{ pose.id }}"> -->
+                      <img src="{{ pose.image_url }}" class="img-circle">
+                  </a>
+
+<!-- 
+              <div class="well">
+                  <h3><a href="/melon/{{ melon.id }}">{{ melon.common_name }}</a></h3>
+                  <a href="/melon/{{ melon.id }}">
+                      <img src="{{ melon.image_url }}" class="img-circle">
+                  </a> -->
+
+                  <!-- <div class="price">{{ melon.price_str() }}</div>
+                  <a class="btn btn-primary" href="/melon/{{ melon.id }}">Details</a>
+              </div> -->
+
+          </div>
+      {% endfor %}
+    </div>
+
+{% endblock %}
